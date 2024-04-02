@@ -1,10 +1,10 @@
-package com.dekankilic.accounts.controller;
+package com.dekankilic.loans.controller;
 
-import com.dekankilic.accounts.constants.AccountConstants;
-import com.dekankilic.accounts.dto.CustomerDto;
-import com.dekankilic.accounts.dto.ErrorResponseDto;
-import com.dekankilic.accounts.dto.ResponseDto;
-import com.dekankilic.accounts.service.IAccountService;
+import com.dekankilic.loans.constants.LoanConstants;
+import com.dekankilic.loans.dto.ErrorResponseDto;
+import com.dekankilic.loans.dto.LoanDto;
+import com.dekankilic.loans.dto.ResponseDto;
+import com.dekankilic.loans.service.ILoanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -22,16 +22,15 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
-@Validated // tell Spring Boot framework to perform validations on all these REST APIs that I have defined inside the AccountController.
-@Tag(name = "CRUD REST APIs for Account in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Account Details")
-public class AccountController {
-
-    private final IAccountService iAccountService;
+@Validated
+@Tag(name = "CRUD REST APIs for Loan in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Loan Details")
+public class LoanController {
+    private final ILoanService iLoanService;
 
     @Operation(
             method = "POST",
-            summary = "Create Account REST API",
-            description = "REST API to create a new Customer & Account inside DEKANBANK",
+            summary = "Create Loan REST API",
+            description = "REST API to create a new Loan inside DEKANBANK",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
@@ -53,25 +52,25 @@ public class AccountController {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto){
-        iAccountService.createAccount(customerDto);
+    public ResponseEntity<ResponseDto> createLoan(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
+        iLoanService.createLoan(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(AccountConstants.STATUS_201, AccountConstants.MESSAGE_201));
-    }
+                .body(new ResponseDto(LoanConstants.STATUS_201, LoanConstants.MESSAGE_201));
 
+    }
 
     @Operation(
             method = "GET",
-            summary = "Fetch Account Details REST API",
-            description = "REST API to fetch a Customer & Account details based on mobile number",
+            summary = "Fetch Loan Details REST API",
+            description = "REST API to fetch Loan details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "HTTP Status OK",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = CustomerDto.class)
+                                    schema = @Schema(implementation = LoanDto.class)
                             )
 
                     ),
@@ -86,18 +85,17 @@ public class AccountController {
             }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam  @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
-        CustomerDto customerDto = iAccountService.fetchAccount(mobileNumber);
+    public ResponseEntity<LoanDto> fetchLoanDetails(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
+        LoanDto loanDto = iLoanService.fetchLoan(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerDto);
+                .body(loanDto);
     }
-
 
     @Operation(
             method = "PUT",
-            summary = "Update Account Details REST API",
-            description = "REST API to update a Customer & Account details based on mobile number",
+            summary = "Update Loan Details REST API",
+            description = "REST API to update Loan details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -111,7 +109,7 @@ public class AccountController {
                             responseCode = "500",
                             description = "HTTP Status Internal Server Error",
                             content = @Content(
-                                    schema = @Schema(implementation = ErrorResponseDto.class) // When run-time exception occurs
+                                    schema = @Schema(implementation = ErrorResponseDto.class)
                             )
                     ),
                     @ApiResponse(
@@ -124,23 +122,24 @@ public class AccountController {
             }
     )
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto){
-        boolean isUpdated = iAccountService.updateAccount(customerDto);
+    public ResponseEntity<ResponseDto> updateLoanDetails(@Valid @RequestBody LoanDto loanDto){
+        boolean isUpdated = iLoanService.updateLoan(loanDto);
         if(isUpdated){
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+                    .body(new ResponseDto(LoanConstants.STATUS_200, LoanConstants.MESSAGE_200));
         }else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_UPDATE));
+                    .body(new ResponseDto(LoanConstants.STATUS_417, LoanConstants.MESSAGE_417_UPDATE));
         }
     }
 
+
     @Operation(
             method = "DELETE",
-            summary = "Delete Account & Customer Details REST API",
-            description = "REST API to delete a Customer & Account details based on mobile number",
+            summary = "Delete Loan Details REST API",
+            description = "REST API to delete Loan details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -167,16 +166,17 @@ public class AccountController {
             }
     )
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
-        boolean isDeleted = iAccountService.deleteAccount(mobileNumber);
+    public ResponseEntity<ResponseDto> deleteLoanDetails(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
+        boolean isDeleted = iLoanService.deleteLoan(mobileNumber);
         if(isDeleted){
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+                    .body(new ResponseDto(LoanConstants.STATUS_200, LoanConstants.MESSAGE_200));
         }else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
+                    .body(new ResponseDto(LoanConstants.STATUS_417, LoanConstants.MESSAGE_417_DELETE));
         }
     }
+
 }

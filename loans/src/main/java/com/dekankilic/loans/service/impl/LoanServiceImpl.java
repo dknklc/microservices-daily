@@ -46,10 +46,14 @@ public class LoanServiceImpl implements ILoanService {
         return LoanMapper.mapToLoanDto(loan);
     }
 
+
+    // Burayı düzelt !!!
     @Override
     public boolean updateLoan(LoanDto loanDto) {
         Loan loan = loanRepository.findByLoanNumber(loanDto.getLoanNumber()).orElseThrow(() -> new ResourceNotFoundException("Loan", "LoanNumber", loanDto.getLoanNumber()));
         Loan willBeUpdated = LoanMapper.mapToLoan(loanDto);
+        willBeUpdated.setLoanId(loan.getLoanId());
+        willBeUpdated.setLoanNumber(loan.getLoanNumber());
         loanRepository.save(willBeUpdated);
         return true;
     }

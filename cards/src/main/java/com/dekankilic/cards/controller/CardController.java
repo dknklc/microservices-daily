@@ -1,10 +1,10 @@
-package com.dekankilic.accounts.controller;
+package com.dekankilic.cards.controller;
 
-import com.dekankilic.accounts.constants.AccountConstants;
-import com.dekankilic.accounts.dto.CustomerDto;
-import com.dekankilic.accounts.dto.ErrorResponseDto;
-import com.dekankilic.accounts.dto.ResponseDto;
-import com.dekankilic.accounts.service.IAccountService;
+import com.dekankilic.cards.constants.CardConstants;
+import com.dekankilic.cards.dto.CardDto;
+import com.dekankilic.cards.dto.ErrorResponseDto;
+import com.dekankilic.cards.dto.ResponseDto;
+import com.dekankilic.cards.service.ICardService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -20,18 +20,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
+@RequestMapping(value = "/api",produces = {MediaType.APPLICATION_JSON_VALUE})
 @RequiredArgsConstructor
-@Validated // tell Spring Boot framework to perform validations on all these REST APIs that I have defined inside the AccountController.
-@Tag(name = "CRUD REST APIs for Accounts in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Account Details")
-public class AccountController {
+@Validated
+@Tag(name = "CRUD REST APIs for Cards in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Card Details")
 
-    private final IAccountService iAccountService;
+public class CardController {
+    private final ICardService iCardService;
 
     @Operation(
             method = "POST",
-            summary = "Create Account REST API",
-            description = "REST API to create a new Customer & Account inside DEKANBANK",
+            summary = "Create Card REST API",
+            description = "REST API to create a new Card inside DEKANBANK",
             responses = {
                     @ApiResponse(
                             responseCode = "201",
@@ -53,25 +53,25 @@ public class AccountController {
             }
     )
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createAccount(@Valid @RequestBody CustomerDto customerDto){
-        iAccountService.createAccount(customerDto);
+    public ResponseEntity<ResponseDto> createCard(@RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber){
+        iCardService.createCard(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ResponseDto(AccountConstants.STATUS_201, AccountConstants.MESSAGE_201));
-    }
+                .body(new ResponseDto(CardConstants.STATUS_201, CardConstants.MESSAGE_201));
 
+    }
 
     @Operation(
             method = "GET",
-            summary = "Fetch Account Details REST API",
-            description = "REST API to fetch a Customer & Account details based on mobile number",
+            summary = "Fetch Card Details REST API",
+            description = "REST API to fetch Card details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
                             description = "HTTP Status OK",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = CustomerDto.class)
+                                    schema = @Schema(implementation = CardDto.class)
                             )
 
                     ),
@@ -86,18 +86,17 @@ public class AccountController {
             }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam  @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
-        CustomerDto customerDto = iAccountService.fetchAccount(mobileNumber);
+    public ResponseEntity<CardDto> fetchCardDetails(@RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber){
+        CardDto cardDto = iCardService.fetchCard(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(customerDto);
+                .body(cardDto);
     }
-
 
     @Operation(
             method = "PUT",
-            summary = "Update Account Details REST API",
-            description = "REST API to update a Customer & Account details based on mobile number",
+            summary = "Update Card Details REST API",
+            description = "REST API to update Card details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -124,23 +123,23 @@ public class AccountController {
             }
     )
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateAccountDetails(@Valid @RequestBody CustomerDto customerDto){
-        boolean isUpdated = iAccountService.updateAccount(customerDto);
+    public ResponseEntity<ResponseDto> updateCardDetails(@Valid @RequestBody CardDto cardDto){
+        boolean isUpdated = iCardService.updateCard(cardDto);
         if(isUpdated){
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+                    .body(new ResponseDto(CardConstants.STATUS_200, CardConstants.MESSAGE_200));
         }else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_UPDATE));
+                    .body(new ResponseDto(CardConstants.STATUS_417, CardConstants.MESSAGE_417_UPDATE));
         }
     }
 
     @Operation(
             method = "DELETE",
-            summary = "Delete Account & Customer Details REST API",
-            description = "REST API to delete a Customer & Account details based on mobile number",
+            summary = "Delete Card Details REST API",
+            description = "REST API to delete Card details based on mobile number",
             responses = {
                     @ApiResponse(
                             responseCode = "200",
@@ -154,7 +153,7 @@ public class AccountController {
                             responseCode = "500",
                             description = "HTTP Status Internal Server Error",
                             content = @Content(
-                                    schema = @Schema(implementation = ErrorResponseDto.class)
+                                    schema = @Schema(implementation = ErrorResponseDto.class) // When run-time exception occurs
                             )
                     ),
                     @ApiResponse(
@@ -167,16 +166,16 @@ public class AccountController {
             }
     )
     @DeleteMapping("/delete")
-    public ResponseEntity<ResponseDto> deleteAccountDetails(@RequestParam @Pattern(regexp = "(^$|[0-9]{10})", message = "Mobile number must be 10 digits") String mobileNumber){
-        boolean isDeleted = iAccountService.deleteAccount(mobileNumber);
+    public ResponseEntity<ResponseDto> deleteCardDetails(@RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber){
+        boolean isDeleted = iCardService.deleteCard(mobileNumber);
         if(isDeleted){
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+                    .body(new ResponseDto(CardConstants.STATUS_200, CardConstants.MESSAGE_200));
         }else {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
-                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_DELETE));
+                    .body(new ResponseDto(CardConstants.STATUS_417, CardConstants.MESSAGE_417_DELETE));
         }
     }
 }

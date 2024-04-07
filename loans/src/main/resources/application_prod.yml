@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "1.0"
+
+loans:
+  message: "Welcome to DekanBANK loans related prod APIs"
+  contactDetails:
+    name: " Mehmet KILIÇ - Product Owner"
+    email: "mehmet.kilic@gmail.com"
+  onCallSupport:
+    -(555) 392-4829
+    -(555) 203-0384

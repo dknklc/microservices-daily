@@ -1,0 +1,18 @@
+# We should also tell Spring Boot Framework when this profile has to be activated
+spring:
+  config:
+    activate:
+      on-profile: "prod"
+
+build:
+  version: "1.0"
+
+accounts:
+  message: "Welcome to DekanBANK accounts related prod APIs"
+  contactDetails:
+    name: " Mehmet KILIÇ - Product Owner"
+    email: "mehmet.kilic@gmail.com"
+  onCallSupport:
+    -(555) 392-4829
+    -(555) 203-0384
+

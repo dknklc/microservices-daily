@@ -1,0 +1,16 @@
+spring:
+  config:
+    activate:
+      on-profile: "qa"
+
+build:
+  version: "2.0"
+
+loans:
+  message: "Welcome to DekanBANK loans related QA APIs"
+  contactDetails:
+    name: " Mustafa KILIÇ - QA Lead"
+    email: "mustafa.kilic@gmail.com"
+  onCallSupport:
+    -(555) 265-3765
+    -(555) 734-8371

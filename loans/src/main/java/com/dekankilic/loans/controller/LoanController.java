@@ -1,14 +1,7 @@
 package com.dekankilic.loans.controller;
-
-<<<<<<< HEAD
-import com.dekankilic.accounts.dto.AccountContactInfoDto;
 import com.dekankilic.loans.constants.LoanConstants;
 import com.dekankilic.loans.dto.ErrorResponseDto;
 import com.dekankilic.loans.dto.LoanContactInfoDto;
-=======
-import com.dekankilic.loans.constants.LoanConstants;
-import com.dekankilic.loans.dto.ErrorResponseDto;
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 import com.dekankilic.loans.dto.LoanDto;
 import com.dekankilic.loans.dto.ResponseDto;
 import com.dekankilic.loans.service.ILoanService;
@@ -19,12 +12,9 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
-import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
-=======
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,15 +23,10 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api", produces = {MediaType.APPLICATION_JSON_VALUE})
-<<<<<<< HEAD
-=======
-@RequiredArgsConstructor
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 @Validated
 @Tag(name = "CRUD REST APIs for Loan in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Loan Details")
 public class LoanController {
     private final ILoanService iLoanService;
-<<<<<<< HEAD
     private final Environment environment;
     private final LoanContactInfoDto loanContactInfoDto;
 
@@ -53,8 +38,6 @@ public class LoanController {
         this.environment = environment;
         this.loanContactInfoDto = loanContactInfoDto;
     }
-=======
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 
     @Operation(
             method = "POST",
@@ -207,8 +190,6 @@ public class LoanController {
                     .body(new ResponseDto(LoanConstants.STATUS_417, LoanConstants.MESSAGE_417_DELETE));
         }
     }
-
-<<<<<<< HEAD
     @Operation(
             method = "GET",
             summary = "Get Build information",
@@ -301,7 +282,4 @@ public class LoanController {
                 .status(HttpStatus.OK)
                 .body(loanContactInfoDto);
     }
-
-=======
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 }

@@ -15,7 +15,6 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-<<<<<<< HEAD
   config:
     import:
       - "application_qa.yml"
@@ -35,5 +34,4 @@ cards:
   onCallSupport:
     -(555) 555-1234
     -(555) 523-1345
-=======
->>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
+

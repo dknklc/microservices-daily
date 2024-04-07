@@ -1,6 +1,9 @@
 package com.dekankilic.cards;
 
+<<<<<<< HEAD
 import com.dekankilic.cards.dto.CardContactInfoDto;
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 import io.swagger.v3.oas.annotations.ExternalDocumentation;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Contact;
@@ -8,7 +11,10 @@ import io.swagger.v3.oas.annotations.info.Info;
 import io.swagger.v3.oas.annotations.info.License;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+<<<<<<< HEAD
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
@@ -33,7 +39,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 				url = "http://www.dekanbank.com/swagger-ui.html"
 		)
 )
+<<<<<<< HEAD
 @EnableConfigurationProperties(value = {CardContactInfoDto.class})
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 public class CardsApplication {
 
 	public static void main(String[] args) {

@@ -83,7 +83,11 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
+<<<<<<< HEAD
 						<image>dekankilic/${project.artifactId}:s6</image>
+=======
+						<image>dekankilic/${project.artifactId}:s4</image>
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 					</to>
 				</configuration>
 			</plugin>

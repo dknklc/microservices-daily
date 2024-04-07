@@ -1,7 +1,10 @@
 package com.dekankilic.cards.controller;
 
 import com.dekankilic.cards.constants.CardConstants;
+<<<<<<< HEAD
 import com.dekankilic.cards.dto.CardContactInfoDto;
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 import com.dekankilic.cards.dto.CardDto;
 import com.dekankilic.cards.dto.ErrorResponseDto;
 import com.dekankilic.cards.dto.ResponseDto;
@@ -14,8 +17,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
+<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -24,11 +30,16 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/api",produces = {MediaType.APPLICATION_JSON_VALUE})
+<<<<<<< HEAD
+=======
+@RequiredArgsConstructor
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 @Validated
 @Tag(name = "CRUD REST APIs for Cards in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Card Details")
 
 public class CardController {
     private final ICardService iCardService;
+<<<<<<< HEAD
     private final Environment environment;
     private final CardContactInfoDto cardContactInfoDto;
 
@@ -40,6 +51,8 @@ public class CardController {
         this.environment = environment;
         this.cardContactInfoDto = cardContactInfoDto;
     }
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 
     @Operation(
             method = "POST",
@@ -191,6 +204,7 @@ public class CardController {
                     .body(new ResponseDto(CardConstants.STATUS_417, CardConstants.MESSAGE_417_DELETE));
         }
     }
+<<<<<<< HEAD
 
 
     @Operation(
@@ -286,4 +300,6 @@ public class CardController {
                 .status(HttpStatus.OK)
                 .body(cardContactInfoDto);
     }
+=======
+>>>>>>> 9a62807be0f4e2ae82ac7f17c04ffb4ccc63b711
 }

@@ -1,13 +1,9 @@
-spring:
-  config:
-    activate:
-      on-profile: "qa"
 
 build:
   version: "2.0"
 
-loans:
-  message: "Welcome to DekanBANK loans related QA APIs"
+cards:
+  message: "Welcome to DekanBANK cards related QA APIs"
   contactDetails:
     name: " Mustafa KILIÇ - QA Lead"
     email: "mustafa.kilic@gmail.com"

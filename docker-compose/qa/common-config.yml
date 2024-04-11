@@ -1,0 +1,21 @@
+services:
+  network-deploy-service:
+    networks:
+      - dekanbank
+
+  microservice-base-config:
+    extends:
+      service: network-deploy-service
+    deploy:
+      resources:
+        limits:
+          memory: 700m
+    environment:
+      SPRING_RABBITMQ_HOST: "rabbit" # instead of localhost, we need to mention the service name which is rabbit which is present in the docker-compose.yml file.
+
+  microservice-configserver-config:
+    extends:
+      service: microservice-base-config
+    environment:
+      SPRING_PROFILES_ACTIVE: qa
+      SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/ # we need to specify this because each service runs inside its own isolated environment, so the implication inside application.yml file of accounts service will not be sufficient. It tries to connect to localhost:8071 inside its own isolated container. So, we need to override the values inside application.yml of accounts microservice so that it can connect to configserver.

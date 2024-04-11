@@ -209,7 +209,7 @@ public class LoanController {
                             description = "HTTP Status Internal Server Error",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = com.dekankilic.accounts.dto.ErrorResponseDto.class)
+                                    schema = @Schema(implementation = ErrorResponseDto.class)
                             )
                     )
             }
@@ -240,7 +240,7 @@ public class LoanController {
                             description = "HTTP Status Internal Server Error",
                             content = @Content(
                                     mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = com.dekankilic.accounts.dto.ErrorResponseDto.class)
+                                    schema = @Schema(implementation = ErrorResponseDto.class)
                             )
                     )
             }

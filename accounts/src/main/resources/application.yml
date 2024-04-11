@@ -2,6 +2,8 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: accounts
   datasource:
     url: jdbc:h2:mem:testdb
     driver-class-name: org.h2.Driver
@@ -15,22 +17,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-  config: # We should tell Spring Boot Framework that we have created two different profiles and these are the names of the yml files. I need to mention .yml files that we have created
-    import:
-      - "application_qa.yml"
-      - "application_prod.yml"
-  profiles: # By this way, we can activate a specific profile
-    active:
-      - "qa"
+  profiles:
+    active: "prod"
+  config: # We need to communicate to accounts microservice about the endpoint details of config server.
+    import: "optional:configserver:http://localhost:8071/" # configserver in here is an indication to accounts microservice that it is going to connect with the config server, do not confuse with the name of the config server we have chosen.
+  # This is for refreshing configurations at runtime using Spring Cloud Bus
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
-build:
-  version: "3.0"
 
-accounts:
-  message: "Welcome to DekanBANK accounts related local APIs"
-  contactDetails:
-    name: "Dekan KILIÇ - Developer"
-    email: "dekan.kilic@gmail.com"
-  onCallSupport:
-    -(555) 555-1234
-    -(555) 523-1345
+# This is for refreshing configurations at runtime using refresh actuator path
+# To enable the actuator API paths. By default, Actuator is not going to expose all the management related API paths. That's why we need to specifically enable them.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # means please enable and expose all management endpoint supported by the Spring Boot Actuator.

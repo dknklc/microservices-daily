@@ -1,0 +1,46 @@
+server:
+  port: 8071
+
+spring:
+  application:
+    name: "configserver"
+  profiles:
+    active: git # when we are using Github repo
+    #active: native # With native, I tell Spring Cloud Config Server that I want to activate a native profile of Spring Cloud Config Server. Whenever We are trying to use a classpath or a file system location to store all our configuration, we need to make sure we are activating this native profile.
+  cloud:
+    config:
+      server:
+        #native:
+          #search-locations: "file:///C://config" # For reading properties from a file system location
+          #search-locations: "classpath:/config"  # For reading properties from a classpath location.
+        git:
+          uri: "https://github.com/dknklc/configurations.git"
+          default-label: main
+          timeout: 5 # My Config Server should wait only for maximum 5 seconds and after 5 seconds, if it is not able to connect to my GitHub repo, the config server should immediately throw an exception
+          clone-on-start: true # I tell my Config Server please try to clone Github repo into local system during the startup
+          force-pull: true # Sometimes, you might have changed some local changes inside the local repo that got cloned inside your config server. By mentioning this, We are telling to override all the local changes whenever you are trying to start or restart your config server
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
+
+
+encrypt: # To encrypt and decryption of some properties
+  key: "45D81EC1EF61DF9AD8D3E5BB397F9" # In real project, this encrypt key is given by command line arguments or environment variables.
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health: # To enable and expose the health related information
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+

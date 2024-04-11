@@ -1,0 +1,13 @@
+
+build:
+  version: "3.0"
+
+cards:
+  message: "Welcome to DekanBANK cards related local APIs"
+  contactDetails:
+    name: "Dekan KILIÇ - Developer"
+    email: "dekan.kilic@gmail.com"
+  onCallSupport:
+    -(555) 555-1234
+    -(555) 523-1345
+

@@ -1,0 +1,29 @@
+server:
+  port: 8070
+
+spring:
+  application:
+    name: "eurekaserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+
+# We need to make sure that the Eureka Server is started before account, loan and card microservices.
+# Since my microservices have dependency on the Eureka Server, I need to expose the readiness and liveness endpoint of the Eureka Server.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health: # To enable and expose the health related information
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+# The remaining properties are stored inside Github repo.
+
+

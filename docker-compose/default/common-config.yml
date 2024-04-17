@@ -19,3 +19,4 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: default
       SPRING_CONFIG_IMPORT: configserver:http://configserver:8071/ # we need to specify this because each service runs inside its own isolated environment, so the implication inside application.yml file of accounts service will not be sufficient. It tries to connect to localhost:8071 inside its own isolated container. So, we need to override the values inside application.yml of accounts microservice so that it can connect to configserver.
+      EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://eurekaserver:8070/eureka/

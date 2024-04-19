@@ -13,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -27,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @Tag(name = "CRUD REST APIs for Cards in DEKANBANK", description = "CRUD REST APIs in DEKANBANK to CREATE, UPDATE, FETCH AND DELETE Card Details")
 public class CardController {
+    private static final Logger logger = LoggerFactory.getLogger(CardController.class);
     private final ICardService iCardService;
     private final Environment environment;
     private final CardContactInfoDto cardContactInfoDto;
@@ -98,7 +101,9 @@ public class CardController {
             }
     )
     @GetMapping("/fetch")
-    public ResponseEntity<CardDto> fetchCardDetails(@RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber){
+    public ResponseEntity<CardDto> fetchCardDetails(@RequestHeader("dekanbank-correlation-id") String correlationId,
+                                                    @RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber){
+        logger.debug("dekanBank-correlation-id found: {}", correlationId);
         CardDto cardDto = iCardService.fetchCard(mobileNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)

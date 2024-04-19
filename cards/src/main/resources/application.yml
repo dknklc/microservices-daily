@@ -35,9 +35,17 @@ management:
     web:
       exposure:
         include: "*" # means please enable and expose all management endpoint supported by the Spring Boot Actuator.
+  health: # To enable and expose the health related information
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint: # to manually shutdown the microservice to see the service deregistration.
     shutdown:
       enabled: true
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
@@ -61,3 +69,12 @@ info:
     name: "cards"
     description: "DekanBANK card application"
     version: "1.0.0"
+
+
+logging:
+  level:
+    com:
+      dekankilic:
+        cards: debug
+
+

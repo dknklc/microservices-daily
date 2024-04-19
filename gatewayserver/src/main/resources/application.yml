@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud: # With this configuration, I tell my gateway, please connect with the discovery server which is Eureka server, and locate all the details about the microservices.
+    gateway:
+      discovery:
+        locator:
+          enabled: false # to disable the default routing configuration of gateway server because we have created our custom routing.
+          lower-case-service-id: true # Please accept the service name with the completely lowercase.
+
+
+# This is for refreshing configurations at runtime using refresh actuator path
+# To enable the actuator API paths. By default, Actuator is not going to expose all the management related API paths. That's why we need to specifically enable them.
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # means please enable and expose all management endpoint supported by the Spring Boot Actuator.
+  endpoint: # to enable the gateway related endpoints inside the actuator
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+
+# The purpose of why we added these info related information is the same information we can see inside the Eureka dashboard.
+info:
+  app:
+    name: "gatewayserver"
+    description: "DekanBANK Gateway Server Application"
+    version: "1.0.0"
+
+logging:
+  level:
+    com:
+      dekankilic:
+        gatewayserver: debug
+

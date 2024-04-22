@@ -23,7 +23,8 @@ public class GatewayserverApplication {
 				.route(p -> p
 						.path("/dekanbank/accounts/**")
 						.filters(f -> f.rewritePath("/dekanbank/accounts/(?<segment>.*)", "/${segment}")
-								.addResponseHeader("X-Response-Time", new Date().toString()))
+								.addResponseHeader("X-Response-Time", new Date().toString())
+								.circuitBreaker(config -> config.setName("accountsCircuitBreaker").setFallbackUri("forward:/contactSupport"))) // Whenever there is an exception happens, please invoke this fallback by forwarding the request to the contactSupport.
 						.uri("lb://ACCOUNTS"))
 				.route(p -> p
 						.path("/dekanbank/loans/**")
@@ -39,7 +40,7 @@ public class GatewayserverApplication {
 	}
 
 }
-// Let's try to create our own custom filters.
+// Let's try to create our own custom filters. (Inside filters package)
 // The logic is that as soon as the external client makes a request, I want to create a correlation id, and I want to
 // send(by setting it in request header) this id from gateway server to other microservices like from gateway to account, and card and loan.
 // Finally, I want to send the correlationId back to the client(by setting it in response header).

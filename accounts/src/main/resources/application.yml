@@ -27,6 +27,10 @@ spring:
     port: 5672
     username: "guest"
     password: "guest"
+  cloud: # We have activated circuit breaker for all the openfeign clients inside the account microservice.
+    openfeign:
+      circuitbreaker:
+        enabled: true
 
 
 # This is for refreshing configurations at runtime using refresh actuator path
@@ -78,7 +82,13 @@ logging:
       dekankilic:
         accounts: debug
 
-
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 10 # Using this property, we are communicating to the circuit breaker pattern on how many requests it has to initially monitor before it tries to change the status from close to open. Please monitor at least 10 requests coming towards my account microservice
+      permittedNumberOfCallsInHalfOpenState: 2 # In the half_open state, 2 request will be allowed to request.
+      failureRateThreshold: 50 # If at least 50% of the requests are failed, then circuit breaker pattern can move to the open state from the close state.
+      waitDurationInOpenState: 10000 # My circuit breaker pattern is going to wait 10s whenever it tries to move the half_open state and allow the partial traffic.
 
 
 

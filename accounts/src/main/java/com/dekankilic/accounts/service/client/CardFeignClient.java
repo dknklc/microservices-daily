@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 
-@FeignClient("cards") // The value "cards" here is the same value where we have used to register with the Eureka Server
+@FeignClient(name = "cards", fallback = CardFallback.class) // The value "cards" here is the same value where we have used to register with the Eureka Server
 public interface CardFeignClient {
 
     @GetMapping(value = "/api/fetch", consumes = "application/json")

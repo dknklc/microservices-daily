@@ -6,11 +6,14 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.circuitbreaker.resilience4j.ReactiveResilience4JCircuitBreakerFactory;
 import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
 import org.springframework.cloud.client.circuitbreaker.Customizer;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.util.Date;
@@ -42,7 +45,8 @@ public class GatewayserverApplication {
 				.route(p -> p
 						.path("/dekanbank/cards/**")
 						.filters(f -> f.rewritePath("/dekanbank/cards/(?<segment>.*)", "/${segment}")
-								.addResponseHeader("X-Response-Time", new Date().toString()))
+								.addResponseHeader("X-Response-Time", new Date().toString())
+								.requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter()).setKeyResolver(userKeyResolver())))
 						.uri("lb://CARDS"))
 				.build();
 	}
@@ -55,6 +59,18 @@ public class GatewayserverApplication {
 				.circuitBreakerConfig(CircuitBreakerConfig.ofDefaults())
 				.timeLimiterConfig(TimeLimiterConfig.custom().timeoutDuration(Duration.ofSeconds(4)).build()).build());
 	}
+
+
+	@Bean
+	public RedisRateLimiter redisRateLimiter(){ // The configuration of Redis Rate Limiter. With this configuration, we are going to add 1 token at each second, and also burst capacity will be 1, and the cost of each request will be 1. With this, it is pretty clear for each second, my end user can only make one request.
+		return new RedisRateLimiter(1, 1, 1);
+	}
+
+	@Bean
+	KeyResolver userKeyResolver(){ // I am providing a key based on which my RateLimiter pattern has to work.
+		return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user")).defaultIfEmpty("anonymous");
+	}
+
 
 }
 // Let's try to create our own custom filters. (Inside filters package)

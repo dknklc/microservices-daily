@@ -12,6 +12,12 @@ spring:
       httpclient: # Timeout configuration for all the microservices that we have
         connect-timeout: 1000
         response-timeout: 2s
+  data: # Redis related configuration for Redis RateLimiter pattern.
+    redis:
+      connect-timeout: 2s
+      host: localhost
+      port: 6379
+      timeout: 1s
 
 
 # This is for refreshing configurations at runtime using refresh actuator path

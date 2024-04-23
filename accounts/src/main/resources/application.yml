@@ -104,6 +104,13 @@ resilience4j.retry:
         retry-exceptions: # Please retry the request only in the scenario of TimeoutException.
           - java.util.concurrent.TimeoutException
 
+# RateLimiter related configurations
+resilience4j.ratelimiter:
+  configs:
+    default:
+      timeout-duration: 1000
+      limit-refresh-period: 5000 # Every 5 seconds, I want to renew the quota.
+      limit-for-period: 1 # For Every 5 seconds, I have configured only one request is allowed.
 
 
 

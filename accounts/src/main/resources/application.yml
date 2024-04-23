@@ -82,6 +82,7 @@ logging:
       dekankilic:
         accounts: debug
 
+# Circuit breaker related configurations
 resilience4j.circuitbreaker:
   configs:
     default:
@@ -89,6 +90,19 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 2 # In the half_open state, 2 request will be allowed to request.
       failureRateThreshold: 50 # If at least 50% of the requests are failed, then circuit breaker pattern can move to the open state from the close state.
       waitDurationInOpenState: 10000 # My circuit breaker pattern is going to wait 10s whenever it tries to move the half_open state and allow the partial traffic.
+
+# Retry related configurations
+resilience4j.retry:
+    configs:
+      default:
+        max-attempts: 3
+        wait-duration: 100
+        enable-exponential-backoff: true
+        exponential-backoff-multiplier: 2
+        ignore-exceptions: # I have configured saying that please ignore the exception of type NullPointerException, and do not retry the request.
+          - java.lang.NullPointerException
+        retry-exceptions: # Please retry the request only in the scenario of TimeoutException.
+          - java.util.concurrent.TimeoutException
 
 
 

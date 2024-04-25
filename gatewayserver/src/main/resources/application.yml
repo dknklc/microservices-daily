@@ -11,7 +11,7 @@ spring:
           lower-case-service-id: true # Please accept the service name with the completely lowercase.
       httpclient: # Timeout configuration for all the microservices that we have
         connect-timeout: 1000
-        response-timeout: 2s
+        response-timeout: 10s # means my gateway server will wait at a maximum of 10 seconds to get a response from the actual microservices
   data: # Redis related configuration for Redis RateLimiter pattern.
     redis:
       connect-timeout: 2s

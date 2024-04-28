@@ -33,6 +33,9 @@ management:
   info:
     env:
       enabled: true
+  metrics: # We tell the micrometer and prometheus that please group all my metrics related to the gateway server under the application name which is gatewayserver.
+    tags:
+      application: ${spring.application.name}
 
 
 # The purpose of why we added these info related information is the same information we can see inside the Eureka dashboard.

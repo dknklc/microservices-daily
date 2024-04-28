@@ -43,4 +43,7 @@ management:
     health:
       probes:
         enabled: true
+  metrics: # We tell the micrometer and prometheus that please group all my metrics related to the configserver microservice under the application name which is configserver.
+    tags:
+      application: ${spring.application.name}
 

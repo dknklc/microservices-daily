@@ -23,6 +23,9 @@ management:
     health:
       probes:
         enabled: true
+  metrics: # We tell the micrometer and prometheus that please group all my metrics related to the eureka server microservice under the application name which is eurekaserver.
+    tags:
+      application: ${spring.application.name}
 
 # The remaining properties are stored inside Github repo.
 

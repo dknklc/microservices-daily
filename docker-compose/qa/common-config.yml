@@ -12,6 +12,9 @@ services:
           memory: 700m
     environment:
       SPRING_RABBITMQ_HOST: "rabbit" # instead of localhost, we need to mention the service name which is rabbit which is present in the docker-compose.yml file.
+      JAVA_TOOL_OPTIONS: "-javaagent:/app/libs/opentelemetry-javaagent-1.27.0.jar"
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://tempo:4317 # OpenTelemetry is going to send all the tracing related information to this tempo service.
+      OTEL_METRICS_EXPORTER: none # I do not want to get metrics with the help of OpenTelemetry because we have already used a better tool.
 
   microservice-configserver-config:
     extends:

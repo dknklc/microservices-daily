@@ -50,6 +50,8 @@ logging:
     com:
       dekankilic:
         gatewayserver: debug
+  pattern: # My own custom pattern for distributed tracing. If I did not write this, OpenTelemetry would use its default pattern. But, I want to use my own pattern.
+    level: "%5p [${spring.application.name},%X{trace_id},%X{span_id}]"
 
 resilience4j.circuitbreaker:
   configs:

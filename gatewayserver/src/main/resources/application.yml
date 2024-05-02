@@ -18,6 +18,11 @@ spring:
       host: localhost
       port: 6379
       timeout: 1s
+  security: # We need to mention what is the auth server url using which my resouce server (gateway server) can download the certificates during the startup of this resource server application.
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs" # This will download the public certificate of the auth server, and using it, my resource server can validate if a given access token is valid or not.
 
 
 # This is for refreshing configurations at runtime using refresh actuator path

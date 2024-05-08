@@ -1,0 +1,25 @@
+server:
+  port: 9010
+
+spring:
+  application:
+    name: "message"
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: message-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring:
+          json:
+            value:
+              default:
+                type: com.dekankilic.message.dto.AccountMessageDto
+    producer:
+      properties:
+        spring:
+          json:
+            add:
+              type:
+                headers: false

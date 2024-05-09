@@ -2,6 +2,7 @@ package com.dekankilic.accounts.service.impl;
 
 import com.dekankilic.accounts.constants.AccountConstants;
 import com.dekankilic.accounts.dto.AccountDto;
+import com.dekankilic.accounts.dto.AccountMessageDto;
 import com.dekankilic.accounts.dto.CustomerDto;
 import com.dekankilic.accounts.exception.CustomerAlreadyExistsException;
 import com.dekankilic.accounts.exception.ResourceNotFoundException;
@@ -13,18 +14,21 @@ import com.dekankilic.accounts.repository.AccountRepository;
 import com.dekankilic.accounts.repository.CustomerRepository;
 import com.dekankilic.accounts.service.IAccountService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AccountServiceImpl implements IAccountService {
 
     private final AccountRepository accountRepository;
     private final CustomerRepository customerRepository;
+    private final KafkaTemplate kafkaTemplate;
 
     @Override
     public void createAccount(CustomerDto customerDto) {
@@ -35,7 +39,14 @@ public class AccountServiceImpl implements IAccountService {
         }
 
         Customer savedCustomer = customerRepository.save(customer);
-        accountRepository.save(createNewAccount(savedCustomer));
+        Account savedAccount = accountRepository.save(createNewAccount(savedCustomer));
+        sendCommunication(savedAccount, savedCustomer);
+    }
+
+    private void sendCommunication(Account account, Customer customer){
+        AccountMessageDto accountMsgDto = new AccountMessageDto(account.getAccountNumber(), customer.getName(), customer.getEmail(), customer.getMobileNumber());
+        log.info("Sending communication request for the details: {}", accountMsgDto);
+        this.kafkaTemplate.send("prod.accounts.placed", String.valueOf(account.getAccountNumber()), accountMsgDto);
     }
 
     private Account createNewAccount(Customer customer){

@@ -1,0 +1,6 @@
+dependencies:
+- name: dekanbank-common
+  repository: file://../../dekanbank-common
+  version: 0.1.0
+digest: sha256:3fa39bd7c461b8c592637ecfdd937bae9a7f51a61494c414ab83462b1a756574
+generated: "2024-05-15T15:44:42.2056711+03:00"

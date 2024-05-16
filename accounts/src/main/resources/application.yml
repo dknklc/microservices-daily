@@ -31,6 +31,9 @@ spring:
     openfeign:
       circuitbreaker:
         enabled: true
+    kubernetes: # The purpose of this is that as of now, we are deploying all our microservices into that default namespace of Kubernetes, to make sure that our application is able to discover the services present inside other namespaces as well.
+      discovery:
+        all-namespaces: true
   kafka:
     bootstrap-servers: localhost:9092
     producer:
@@ -73,14 +76,14 @@ endpoints: # To enable the endpoints related to shutdown of a microservice
   shutdown:
     enabled: true
 
-eureka:
-  instance:
-    prefer-ip-address: true # Whenever my account microservice is trying to register with the Eureka server, by default it will try to register with the host name. The host names will make sense whenever you use DNS mappings inside your microservices network. But, inside our local system we do not have any DNS mapping setup, so we should use prefer IP address as true so that my account microservice will register with my Eureka server by using the IP address.
-  client:
-    fetch-registry: true # our account microservice will try to fetch the registry details whenever it is trying to connect with other microservices.
-    register-with-eureka: true # since we want our account microservice to be registered with the Eureka server
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
+#eureka:
+#  instance:
+#    prefer-ip-address: true # Whenever my account microservice is trying to register with the Eureka server, by default it will try to register with the host name. The host names will make sense whenever you use DNS mappings inside your microservices network. But, inside our local system we do not have any DNS mapping setup, so we should use prefer IP address as true so that my account microservice will register with my Eureka server by using the IP address.
+#  client:
+#    fetch-registry: true # our account microservice will try to fetch the registry details whenever it is trying to connect with other microservices.
+#    register-with-eureka: true # since we want our account microservice to be registered with the Eureka server
+#    service-url:
+#      defaultZone: http://localhost:8070/eureka/
 
 # The purpose of why we added these info related information is the same information we can see inside the Eureka dashboard.
 info:

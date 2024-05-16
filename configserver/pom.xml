@@ -84,7 +84,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>dekankilic/${project.artifactId}:s14</image>
+						<image>dekankilic/${project.artifactId}:s17</image>
 					</to>
 				</configuration>
 			</plugin>

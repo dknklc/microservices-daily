@@ -31,9 +31,11 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-gateway</artifactId>
 		</dependency>
+
+		<!-- Instead of Spring Cloud Netflix Eureka Client, use Spring Cloud Kubernetes  -->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+			<artifactId>spring-cloud-starter-kubernetes-discoveryclient</artifactId>
 		</dependency>
 
 		<dependency>
@@ -115,7 +117,7 @@
 				<version>3.4.1</version>
 				<configuration>
 					<to>
-						<image>dekankilic/${project.artifactId}:s14</image>
+						<image>dekankilic/${project.artifactId}:s17</image>
 					</to>
 				</configuration>
 			</plugin>

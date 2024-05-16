@@ -22,6 +22,10 @@ spring:
   config: # We need to communicate to cards microservice about the endpoint details of config server.
     import: "optional:configserver:http://localhost:8071/" # configserver in here is an indication to cards microservice that it is going to connect with the config server, do not confuse with the name of the config server we have chosen.
   # This is for refreshing configurations at runtime using Spring Cloud Bus
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
   rabbitmq:
     host: "localhost"
     port: 5672
@@ -57,14 +61,14 @@ endpoints: # To enable the endpoints related to shutdown of a microservice
   shutdown:
     enabled: true
 
-eureka:
-  instance:
-    prefer-ip-address: true # Whenever my card microservice is trying to register with the Eureka server, by default it will try to register with the host name. The host names will make sense whenever you use DNS mappings inside your microservices network. But, inside our local system we do not have any DNS mapping setup, so we should use prefer IP address as true so that my account microservice will register with my Eureka server by using the IP address.
-  client:
-    fetch-registry: true # our card microservice will try to fetch the registry details whenever it is trying to connect with other microservices.
-    register-with-eureka: true # since we want our card microservice to be registered with the Eureka server
-    service-url:
-      defaultZone: http://localhost:8070/eureka/
+#eureka:
+#  instance:
+#    prefer-ip-address: true # Whenever my card microservice is trying to register with the Eureka server, by default it will try to register with the host name. The host names will make sense whenever you use DNS mappings inside your microservices network. But, inside our local system we do not have any DNS mapping setup, so we should use prefer IP address as true so that my account microservice will register with my Eureka server by using the IP address.
+#  client:
+#    fetch-registry: true # our card microservice will try to fetch the registry details whenever it is trying to connect with other microservices.
+#    register-with-eureka: true # since we want our card microservice to be registered with the Eureka server
+#    service-url:
+#      defaultZone: http://localhost:8070/eureka/
 
 # The purpose of why we added these info related information is the same information we can see inside the Eureka dashboard.
 info:

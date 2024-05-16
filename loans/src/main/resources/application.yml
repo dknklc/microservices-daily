@@ -22,6 +22,10 @@ spring:
   config: # We need to communicate to loans microservice about the endpoint details of config server.
     import: "optional:configserver:http://localhost:8071/" # configserver in here is an indication to loans microservice that it is going to connect with the config server, do not confuse with the name of the config server we have chosen.
   # This is for refreshing configurations at runtime using Spring Cloud Bus
+  cloud:
+    kubernetes:
+      discovery:
+        all-namespaces: true
   rabbitmq:
     host: "localhost"
     port: 5672

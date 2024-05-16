@@ -5,9 +5,6 @@ dependencies:
 - name: configserver
   repository: file://../../dekanbank-services/configserver
   version: 0.1.0
-- name: eurekaserver
-  repository: file://../../dekanbank-services/eurekaserver
-  version: 0.1.0
 - name: accounts
   repository: file://../../dekanbank-services/accounts
   version: 0.1.0
@@ -23,5 +20,5 @@ dependencies:
 - name: message
   repository: file://../../dekanbank-services/message
   version: 0.1.0
-digest: sha256:444beab62acc9ad9199955058a8f75f9f70dbb1544c8944bd070b0b1aa4f4469
-generated: "2024-05-15T16:50:34.779682+03:00"
+digest: sha256:1b796a5bbead4d12cdd45d1374a2380bf78601b53e53a7bf816121fdbb3cfe38
+generated: "2024-05-16T14:43:55.1681165+03:00"

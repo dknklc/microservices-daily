@@ -5,13 +5,21 @@ spring:
     import: "optional:configserver:http://localhost:8071/"
   cloud: # With this configuration, I tell my gateway, please connect with the discovery server which is Eureka server, and locate all the details about the microservices.
     gateway:
-      discovery:
-        locator:
-          enabled: false # to disable the default routing configuration of gateway server because we have created our custom routing.
-          lower-case-service-id: true # Please accept the service name with the completely lowercase.
+#      discovery:
+#        locator:
+#          enabled: false # to disable the default routing configuration of gateway server because we have created our custom routing.
+#          lower-case-service-id: true # Please accept the service name with the completely lowercase.
       httpclient: # Timeout configuration for all the microservices that we have
         connect-timeout: 1000
         response-timeout: 10s # means my gateway server will wait at a maximum of 10 seconds to get a response from the actual microservices
+    kubernetes:
+      discovery:
+        all-namespaces: true
+        enabled: true # we tell the Gateway Server please leverage the discovery server available inside the cluster to forward the request to the other microservices like accounts, loans and cards.
+    discovery: # By default, there is a health indicator bean is going to be created internally. Without this, there will be a problem. In future, when this issue is resolved, then we can remove this property.
+      client:
+        health-indicator:
+          enabled: false
   data: # Redis related configuration for Redis RateLimiter pattern.
     redis:
       connect-timeout: 2s
